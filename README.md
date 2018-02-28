@@ -1,14 +1,13 @@
 ### Source code for CV Problems(Pytorch)
 ```
-@misc{Detectron2018,
+@misc{CV2018,
   author =       {Donny You (youansheng@gmail.com)},
-  title =        {ComputerVision},
   howpublished = {\url{https://github.com/youansheng/ComputerVision}},
   year =         {2018}
 }
 ```
 
-This repository provides source code for some computer vision problems. We do our best to keep this repository up to date.  If you do find a problem about this repo, please raise this as an issue. We will fix it immediately.
+This repository provides source code for some cv problems. We do our best to keep this repository up to date.  If you do find a problem about this repository, please raise this as an issue. We will fix it immediately.
 
 
 #### Details:
