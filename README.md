@@ -1,6 +1,5 @@
-# Source code for some Computer Vision Problems
-### Author: Donny You(youansheng@gmail.com)
-### Platform: PyTorch
+## Source code for CV Problems(Pytorch)
+##### Author: Donny You(youansheng@gmail.com)
 
 This repository provides source code for some computer vision problems. We do our best to keep this repository up to date.  If you do find a problem about this repo, please raise this as an issue. We will fix it immediately.
 
