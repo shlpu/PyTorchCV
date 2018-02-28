@@ -1,23 +1,19 @@
-### Pose Estimation
+# Source code for some Computer Vision Problems
+### Author: Donny You(youansheng@gmail.com)
+### Platform: PyTorch
 
----
-##### Command to Train COCO Keypoints:
-```Python
-python main.py --dataset coco --hypes ./hypes/coco_pose.json --phase train
-```
+This repository provides source code for some computer vision problems. We do our best to keep this repository up to date.  If you do find a problem about this repo, please raise this as an issue. We will fix it immediately.
 
-##### Command to Test COCO Keypoints:
-```Python
-python main.py --dataset coco --hypes ./hypes/coco_pose.json --phase test
-```
 
----
-##### Command to Train Laneline Pose:
-```Python
-python main.py --dataset lane --hypes ./hypes/coco_pose.json --phase train
-```
+Details:
 
-##### Command to Test Laneline Pose:
-```Python
-python main.py --dataset lane --hypes ./hypes/coco_pose.json --phase test
-```
+- [Pose Estimation](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems#supervised-learning)
+    - [Speech](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems#speech)
+    - [Computer Vision](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems#computer-vision)
+    - [NLP](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems#nlp)
+- [Object Detection](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems#semi-supervised-learning)
+    - Computer Vision
+- [Semantic Segmentation](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems#unsupervised-learning)
+    - Speech
+    - Computer Vision
+    - [NLP](https://github.com/RedditSota/state-of-the-art-result-for-machine-learning-problems/blob/master/README.md#nlp-1)
