@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author: Donny You(youansheng@gmail.com)
-# Main Scripts for pose estimator.
+# Main Scripts for computer vision.
 
 
 from __future__ import absolute_import
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument('--hypes', default=None, type=str,
                         dest='hypes', help='The file of the hyper parameters.')
     parser.add_argument('--phase', default='train', type=str,
-                        dest='phase', help='The phase of Pose Estimator.')
+                        dest='phase', help='The phase of module.')
     parser.add_argument('--gpu', default=[0, ], nargs='+', type=int,
                         dest='gpu', help='The gpu used.')
     parser.add_argument('--resume', default=None, type=str,
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     parser.add_argument('--log_file', default=None, type=str,
                         dest='log_file', help='The path of log files.')
 
-    # ***********  Params for test.  **********
+    # ***********  Params for test or submission.  **********
     parser.add_argument('--test_img', default=None, type=str,
                         dest='test_img', help='The test path of image.')
     parser.add_argument('--test_dir', default=None, type=str,
@@ -76,7 +76,9 @@ if __name__ == "__main__":
     if configer.get('phase') == 'train':
         model.train()
     elif configer.get('phase') == 'test' and configer.get('resume') is not None:
-        model.test(configer.get('test_img'))
+        model.test()
+    elif configer.get('phase') == 'submission' and configer.get('resume') is not None:
+        model.create_submission()
     else:
         Log.error('Phase: {} is not valid.'.format(args.phase))
         exit(1)
