@@ -75,7 +75,7 @@ class FCNSegmentorTest(object):
 
     def test(self, test_img=None, test_dir=None):
         base_dir = os.path.join(self.configer.get('project_dir'),
-                                'vis/results/pose', self.configer.get('dataset'), 'test')
+                                'val/results/seg', self.configer.get('dataset'), 'test')
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
 
@@ -98,32 +98,33 @@ class FCNSegmentorTest(object):
                 save_path = os.path.join(base_dir, filename)
                 self.__test_img(image_path, save_path)
 
-    def __create_cityscape_submission(self, image_path, save_path):
+    def __create_cityscape_submission(self, test_dir=None, base_dir=None):
         label_list = [7, 8, 11, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33]
-
-        result = self.forward(image_path)
-        width = self.configer.get('data', 'input_size')[0] // self.configer.get('network', 'stride')
-        height = self.configer.get('data', 'input_size')[1] // self.configer.get('network', 'stride')
-        label_dst = np.ones((height, width), dtype=np.uint8) * 255
-        for i in range(self.configer.get('data', 'num_classes')):
-            label_dst[result == i] = label_list[i]
-
-        label_img = np.array(label_dst, dtype=np.uint8)
-        label_img = Image.fromarray(label_img, 'P')
-        label_img.save(save_path)
-
-    def create_submission(self, test_dir=None):
-        base_dir = os.path.join(self.configer.get('project_dir'),
-                                'vis/results/pose', self.configer.get('dataset'), 'submission')
-        if not os.path.exists(base_dir):
-            os.makedirs(base_dir)
 
         for filename in self.__list_dir(test_dir):
             image_path = os.path.join(test_dir, filename)
             save_path = os.path.join(base_dir, filename)
+            result = self.forward(image_path)
+            width = self.configer.get('data', 'input_size')[0] // self.configer.get('network', 'stride')
+            height = self.configer.get('data', 'input_size')[1] // self.configer.get('network', 'stride')
+            label_dst = np.ones((height, width), dtype=np.uint8) * 255
+            for i in range(self.configer.get('data', 'num_classes')):
+                label_dst[result == i] = label_list[i]
 
-            if self.configer.get('dataset') == 'cityscape':
-                self.__create_cityscape_submission(image_path, save_path)
+            label_img = np.array(label_dst, dtype=np.uint8)
+            label_img = Image.fromarray(label_img, 'P')
+            label_img.save(save_path)
+
+    def create_submission(self, test_dir=None):
+        base_dir = os.path.join(self.configer.get('project_dir'),
+                                'val/results/seg', self.configer.get('dataset'), 'submission')
+        if not os.path.exists(base_dir):
+            os.makedirs(base_dir)
+
+
+
+        if self.configer.get('dataset') == 'cityscape':
+            self.__create_cityscape_submission(test_dir, base_dir)
 
         else:
             Log.error('Dataset: {} is not valid.'.format(self.configer.get('dataset')))
