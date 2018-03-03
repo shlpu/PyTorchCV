@@ -22,3 +22,43 @@ This repository provides source code for some cv problems. We do our best to kee
     
 - [Semantic Segmentation](https://github.com/youansheng/ComputerVision/tree/master/methods/seg)
     - Efficient ConvNet for Real-time Semantic Segmentation
+
+#### Examples
+- Train the openpose model
+```bash
+python main.py --hypes hypes/pose/coco/op_coco_pose.json \
+               --base_lr 0.001 \
+               --phase train
+```
+
+- Finetune the openpose model
+```bash
+python main.py --hypes hypes/pose/coco/op_coco_pose.json \
+               --base_lr 0.001 \
+               --phase train \
+               --resume checkpoints/pose/coco/coco_open_pose_65000.pth
+```
+
+- Test the openpose model(test_img):
+```bash
+python main.py --hypes hypes/pose/coco/op_coco_pose.json \
+               --phase test \
+               --resume checkpoints/pose/coco/coco_open_pose_65000.pth \
+               --test_img val/samples/ski.jpg
+```
+
+- Test the openpose model(test_dir):
+```bash
+python main.py --hypes hypes/pose/coco/op_coco_pose.json \
+               --phase test \
+               --resume checkpoints/pose/coco/coco_open_pose_65000.pth \
+               --test_dir val/samples
+```
+
+- Create the submission:
+```bash
+python main.py --hypes hypes/pose/coco/op_coco_pose.json \
+               --phase submission \
+               --resume checkpoints/pose/coco/coco_open_pose_65000.pth \
+               --test_dir coco_test_dir
+```
