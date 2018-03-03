@@ -130,7 +130,7 @@ class PadImage(object):
         img_padded = np.concatenate((img_padded, pad_down), axis=0)
         pad_right = np.tile(img_padded[:, -2:-1, :] * 0 + self.pad_value, (1, pad[3], 1))
         img_padded = np.concatenate((img_padded, pad_right), axis=1)
-        return Image.fromarray(img_padded), pad
+        return img_padded, pad
 
 
 class RandomFlip(object):
