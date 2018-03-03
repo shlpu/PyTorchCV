@@ -62,3 +62,4 @@ python main.py --hypes hypes/pose/coco/op_coco_pose.json \
                --resume checkpoints/pose/coco/coco_open_pose_65000.pth \
                --test_dir coco_test_dir
 ```
+- Attention: Other command line parameters are showed in main file. You can refer & use them.
