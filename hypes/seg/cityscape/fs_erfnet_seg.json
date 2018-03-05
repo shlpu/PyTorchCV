@@ -1,0 +1,50 @@
+{
+    "dataset": "cityscape",
+    "task": "seg",
+    "method": "fcn_segmentor",
+    "project_dir":"/home/deepmotion/PycharmProjects/PoseEstimation",
+    "data": {
+      "batch_size": 3,
+      "input_size": [1024, 512],
+      "rotate_degree": 0,
+      "num_classes": 19,
+      "train_dir": "/home/deepmotion/DataSet/CityScape",
+      "val_dir": "/home/deepmotion/DataSet/CityScape"
+    },
+    "details": {
+      "coco_to_ours": [0, 15, 14, 17, 16, 5, 2, 6, 3, 7, 4, 11, 8, 12, 9, 13, 10]
+    },
+    "checkpoints": {
+      "save_name": "fs_erfnet_seg",
+      "save_dir": "./checkpoints/seg/cityscape",
+      "save_iters": 10000
+    },
+
+    "network":{
+      "model_name": "erf_net",
+      "stride": 1,
+      "out_channels": 20
+    },
+    "logging": {
+      "log_level": "debug",
+      "stdout_level": "info",
+      "log_file": "./log/default.log",
+      "log_format": "%(asctime)s %(levelname)-7s %(message)s",
+      "rewrite": false
+    },
+    "solver": {
+      "workers": 8,
+      "weight_decay": 0.0005,
+      "momentum": 0.9,
+      "base_lr": 0.01,
+      "lr_policy": "step",
+      "gamma": 0.333,
+      "step_size": 13275,
+      "display_iter": 100,
+      "test_interval": 10000,
+      "max_iter": 50000
+    },
+    "vis": {
+      "stick_width": 4
+    }
+}
