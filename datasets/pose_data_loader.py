@@ -49,6 +49,18 @@ class PoseDataLoader(object):
 
             return coco_trainloader
 
+        elif self.configer.get('dataset') == 'fashionai':
+            fai_trainloader = data.DataLoader(
+                Loader(root_dir=self.configer.get('data', 'train_dir'),
+                       base_transform=self.base_train_transform,
+                       input_transform=self.input_transform,
+                       label_transform=self.label_transform,
+                       split='train', configer=self.configer),
+                batch_size=self.configer.get('data', 'batch_size'), shuffle=True,
+                num_workers=self.configer.get('solver', 'workers'), pin_memory=True)
+
+            return fai_trainloader
+
         elif self.configer.get('dataset') == 'lane':
             lane_trainloader = data.DataLoader(
                 Loader(self.configer.get('data', 'train_dir'),
@@ -77,6 +89,18 @@ class PoseDataLoader(object):
                 num_workers=self.configer.get('solver', 'workers'), pin_memory=True)
 
             return coco_valloader
+
+        elif self.configer.get('dataset') == 'fashionai':
+            fai_valloader = data.DataLoader(
+                Loader(root_dir=self.configer.get('data', 'val_dir'),
+                       base_transform=self.base_val_transform,
+                       input_transform=self.input_transform,
+                       label_transform=self.label_transform,
+                       split='val', configer=self.configer),
+                batch_size=self.configer.get('data', 'batch_size'), shuffle=False,
+                num_workers=self.configer.get('solver', 'workers'), pin_memory=True)
+
+            return fai_valloader
 
         elif self.configer.get('dataset') == 'lane':
             lane_valloader = data.DataLoader(

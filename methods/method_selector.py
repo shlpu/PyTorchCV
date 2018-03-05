@@ -9,6 +9,8 @@ from methods.pose.open_pose import OpenPose
 from methods.pose.open_pose_test import OpenPoseTest
 from methods.pose.associative_embedding import AssociativeEmbedding
 from methods.pose.associative_embedding_test import AssociativeEmbeddingTest
+from methods.pose.fashion_ai import FashionAI
+from methods.pose.fashion_ai_test import FashionAITest
 
 from methods.seg.fcn_segmentor import FCNSegmentor
 from methods.seg.fcn_segmentor_test import FCNSegmentorTest
@@ -39,6 +41,12 @@ class MethodSelector(object):
                 return AssociativeEmbedding(self.configer)
             else:
                 return AssociativeEmbeddingTest(self.configer)
+
+        elif key == 'fashion_ai':
+            if self.configer.get('phase') == 'train':
+                return FashionAI(self.configer)
+            else:
+                return FashionAITest(self.configer)
 
         else:
             Log.error('Pose Model: {} is not valid.'.format(key))
