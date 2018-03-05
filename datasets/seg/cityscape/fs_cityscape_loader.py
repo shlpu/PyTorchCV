@@ -11,6 +11,8 @@ import os
 from PIL import Image
 from torch.utils import data
 
+from datasets.tools.transforms import ReLabel
+
 
 class FSCityScapeLoader(data.Dataset):
     def __init__(self, root_dir, split="train", base_transform=None,
@@ -26,27 +28,24 @@ class FSCityScapeLoader(data.Dataset):
         label_list = list()
         img_dir = os.path.join(root_dir, 'leftImg8bit', split)
         label_dir = os.path.join(root_dir, 'gtFine', split)
-        sub_dirs = os.listdir(img_dir)
 
-        for sub_dir in sub_dirs:
-            for sub_file in os.listdir(sub_dir):
-                filename = '_'.join(sub_file.split('_')[:-2])
-                img_list.append(os.path.join(img_dir, '{}_leftImg8bit.png'.format(filename)))
-                label_list.append(os.path.join(label_dir,
+        for sub_dir in os.listdir(img_dir):
+            for sub_file in os.listdir(os.path.join(img_dir, sub_dir)):
+                filename = '_'.join(sub_file.split('_')[:-1])
+                img_list.append(os.path.join(img_dir, sub_dir, '{}_leftImg8bit.png'.format(filename)))
+                label_list.append(os.path.join(label_dir, sub_dir,
                                                '{}_gtFine_labelTrainIds.png'.format(filename)))
 
         if coarse:
             coarse_img_dir = os.path.join(root_dir, "leftImg8bit/train_extra")
             coarse_label_dir = os.path.join(root_dir, "gtCoarse/train_extra")
 
-            sub_dirs = os.listdir(coarse_img_dir)
-
-            for sub_dir in sub_dirs:
-                for sub_file in os.listdir(sub_dir):
-                    filename = '_'.join(sub_file.split('_')[:-2])
-                    img_list.append(os.path.join(coarse_img_dir,
+            for sub_dir in os.listdir(coarse_img_dir):
+                for sub_file in os.listdir(os.path.join(coarse_img_dir, sub_dir)):
+                    filename = '_'.join(sub_file.split('_')[:-1])
+                    img_list.append(os.path.join(coarse_img_dir, sub_dir,
                                                  '{}_leftImg8bit.png'.format(filename)))
-                    label_list.append(os.path.join(coarse_label_dir,
+                    label_list.append(os.path.join(coarse_label_dir, sub_dir,
                                                    '{}_gtCoarse_labelTrainIds.png'.format(filename)))
 
         return img_list, label_list
@@ -62,7 +61,7 @@ class FSCityScapeLoader(data.Dataset):
         label = Image.open(label_file).convert("P")
 
         if self.base_transform is not None:
-            img, label = self.base_transform(img, label)
+            img, label = self.base_transform(img, label=label)
 
         if self.img_transform is not None:
             img = self.img_transform(img)
@@ -70,6 +69,7 @@ class FSCityScapeLoader(data.Dataset):
         if self.label_transform is not None:
             label = self.label_transform(label)
 
+        label = ReLabel(255, 19)(label)
         return img, label
 
 

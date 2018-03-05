@@ -58,8 +58,8 @@ class DeNormalize(object):
 
     def __call__(self, inputs):
         result = inputs.clone()
-        for i in range(result.size(1)):
-            result[:,i,:,:] = result[:,i,:,:] * self.std[i] + self.mean[i]
+        for i in range(result.size(0)):
+            result[i,:,:] = result[i,:,:] * self.std[i] + self.mean[i]
 
         return result
 
@@ -83,6 +83,10 @@ class ToTensor(object):
 
         return inputs.float()
 
+
+class ToLabel(object):
+    def __call__(self, inputs):
+        return torch.from_numpy(np.array(inputs)).long()
 
 class ReLabel(object):
     def __init__(self, olabel, nlabel):
@@ -170,13 +174,14 @@ class RandomHSV(object):
             v range: 0-255
     """
 
-    def __init__(self, h_range, s_range, v_range):
+    def __init__(self, h_range, s_range, v_range, is_base=True):
         assert isinstance(h_range, (list, tuple)) and \
                isinstance(s_range, (list, tuple)) and \
                isinstance(v_range, (list, tuple))
         self.h_range = h_range
         self.s_range = s_range
         self.v_range = v_range
+        self.is_base=is_base
 
     def __call__(self, img, label=None, mask=None, kpt=None, center=None):
         img = np.array(img)
@@ -190,7 +195,10 @@ class RandomHSV(object):
         img_v = np.clip(img_v + v_random, 0, 255)
         img_hsv = np.stack([img_h, img_s, img_v], axis=2)
         img_new = matplotlib.colors.hsv_to_rgb(img_hsv)
-        return Image.fromarray(img_new), label, mask, kpt, center
+        if not self.is_base:
+            return Image.fromarray(img_new)
+        else:
+            return Image.fromarray(img_new), label, mask, kpt, center
 
 
 class RandomResize(object):
@@ -201,9 +209,10 @@ class RandomResize(object):
         scale_max: the max scale to resize.
     """
 
-    def __init__(self, scale_min=0.5, scale_max=1.1, size=None):
+    def __init__(self, scale_min=0.5, scale_max=1.1, size=None, is_base=True):
         self.scale_min = scale_min
         self.scale_max = scale_max
+        self.is_base = is_base
 
         if size is not None:
             if isinstance(size, int):
@@ -260,7 +269,10 @@ class RandomResize(object):
         if mask is not None:
             mask = mask.resize(converted_size, Image.NEAREST)
 
-        return img, label, mask, kpt, center
+        if not self.is_base:
+            return img
+        else:
+            return img, label, mask, kpt, center
 
 
 class RandomRotate(object):
@@ -270,9 +282,10 @@ class RandomRotate(object):
         degree (number): Desired rotate degree.
     """
 
-    def __init__(self, max_degree):
+    def __init__(self, max_degree, is_base=True):
         assert isinstance(max_degree, int)
         self.max_degree = max_degree
+        self.is_base = is_base
 
     def __call__(self, image, label=None, mask=None, kpt=None, center=None):
         """
@@ -300,7 +313,7 @@ class RandomRotate(object):
         new_height = int(height * cos_val + width * sin_val)
         rotate_mat[0, 2] += (new_width / 2.) - img_center[0]
         rotate_mat[1, 2] += (new_height / 2.) - img_center[1]
-        Log.info('{}_{}'.format(new_width, new_height))
+        # Log.info('{}_{}'.format(new_width, new_height))
         image = cv2.warpAffine(image, rotate_mat, (new_width, new_height), borderValue=(128, 128, 128))
         image = Image.fromarray(image)
         if label is not None:
@@ -332,8 +345,10 @@ class RandomRotate(object):
                     p = rotate_mat.dot(p)
                     center[i][0] = p[0]
                     center[i][1] = p[1]
-
-        return image, label, mask, kpt, center
+        if not self.is_base:
+            return image
+        else:
+            return image, label, mask, kpt, center
 
 
 class RandomCrop(object):
@@ -343,7 +358,8 @@ class RandomCrop(object):
         size (int or tuple): Desired output size of the crop.(w, h)
     """
 
-    def __init__(self, size):
+    def __init__(self, size, is_base=True):
+        self.is_base = is_base
         if isinstance(size, int):
             self.size = (size, size)
         elif isinstance(size, collections.Iterable) and len(size) == 2:
@@ -391,7 +407,11 @@ class RandomCrop(object):
 
         if mask is not None:
             mask = mask.crop((offset_left, offset_up, offset_left+self.size[0], offset_up+self.size[1]))
-        return img, label, mask, kpt, center
+
+        if not self.is_base:
+            return img
+        else:
+            return img, label, mask, kpt, center
 
 
 class BaseCompose(object):

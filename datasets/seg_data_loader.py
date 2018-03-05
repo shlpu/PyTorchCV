@@ -22,28 +22,28 @@ class SegDataLoader(object):
         self.base_train_transform = trans.BaseCompose([
             trans.RandomResize(),
             trans.RandomRotate(self.configer.get('data', 'rotate_degree')),
-            trans.RandomCrop(self.configer.get('input_size')),
-            trans.RandomResize(size=self.configer.get('input_size')), ])
+            trans.RandomCrop(self.configer.get('data', 'input_size')),
+            trans.RandomResize(size=self.configer.get('data', 'input_size')), ])
 
         self.base_val_transform = trans.BaseCompose([
-            trans.RandomResize(size=self.configer.get('input_size')), ])
+            trans.RandomResize(size=self.configer.get('data', 'input_size')), ])
 
         self.img_transform = trans.Compose([
             trans.ToTensor(),
             trans.Normalize(mean=[128.0, 128.0, 128.0],
                             std=[256.0, 256.0, 256.0]), ])
 
-        self.label_transform = trans.Compose([trans.ToTensor(), ])
+        self.label_transform = trans.Compose([trans.ToLabel(), ])
 
     def get_trainloader(self, Loader=None):
         if self.configer.get('dataset') == 'cityscape':
             cityscape_trainloader = data.DataLoader(
-                Loader(root_dir=self.configer.get('train_dir'),
+                Loader(root_dir=self.configer.get('data', 'train_dir'),
                        base_transform=self.base_train_transform,
                        img_transform=self.img_transform,
                        label_transform=self.label_transform,
                        split='train'),
-                batch_size=self.configer.get('batch_size'), shuffle=True,
+                batch_size=self.configer.get('data', 'batch_size'), shuffle=True,
                 num_workers=self.configer.get('solver', 'workers'), pin_memory=True)
 
             return cityscape_trainloader
@@ -55,12 +55,12 @@ class SegDataLoader(object):
     def get_valloader(self, Loader=None):
         if self.configer.get('dataset') == 'cityscape':
             cityscape_valloader = data.DataLoader(
-                Loader(root_dir=self.configer.get('val_dir'),
+                Loader(root_dir=self.configer.get('data', 'val_dir'),
                        base_transform=self.base_val_transform,
                        img_transform=self.img_transform,
                        label_transform=self.label_transform,
                        split='val'),
-                batch_size=self.configer.get('batch_size'), shuffle=False,
+                batch_size=self.configer.get('data', 'batch_size'), shuffle=False,
                 num_workers=self.configer.get('solver', 'workers'), pin_memory=True)
 
             return cityscape_valloader
