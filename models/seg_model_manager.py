@@ -23,4 +23,4 @@ class SegModelManager(object):
             return ERFNet(self.configer.get('network', 'out_channels'))
         else:
             Log.error('Model: {} not valid!'.format(key))
-            exit(0)
+            exit(1)

@@ -37,7 +37,7 @@ class FCNSegmentorTest(object):
 
     def forward(self, image_path):
         image = Image.open(image_path).convert('RGB')
-        image = RandomResize(size=self.configer.get('data', 'input_size'))(image)
+        image = RandomResize(size=self.configer.get('data', 'input_size'), is_base=False)(image)
         image = ToTensor()(image)
         image = Normalize(mean=[128.0, 128.0, 128.0], std=[256.0, 256.0, 256.0])(image)
         inputs = Variable(image.unsqueeze(0).cuda(), volatile=True)
@@ -73,12 +73,14 @@ class FCNSegmentorTest(object):
     def __test_laneline_img(self, img_path, save_path):
         pass
 
-    def test(self, test_img=None, test_dir=None):
+    def test(self):
         base_dir = os.path.join(self.configer.get('project_dir'),
                                 'val/results/seg', self.configer.get('dataset'), 'test')
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
 
+        test_img = self.configer.get('test_img')
+        test_dir = self.configer.get('test_dir')
         if test_img is None and test_dir is None:
             Log.error('test_img & test_dir not exists.')
             exit(1)

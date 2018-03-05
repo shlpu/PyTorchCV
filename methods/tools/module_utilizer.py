@@ -82,6 +82,8 @@ class ModuleUtilizer(object):
             'state_dict': net.state_dict(),
         }
         checkpoints_dir = self.configer.get('checkpoints', 'save_dir')
+        if not os.path.exists(checkpoints_dir):
+            os.makedirs(checkpoints_dir)
 
         latest_name = '{}_{}.pth'.format(self.configer.get('checkpoints', 'save_name'), iters)
         torch.save(state, os.path.join(checkpoints_dir, latest_name))

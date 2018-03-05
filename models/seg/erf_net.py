@@ -131,7 +131,6 @@ class ERFNet(nn.Module):
         x = self.downsampler3(x)
         x = self.casbottleneck1(x)
         x = self.casbottleneck2(x)
-        enc = self.conv_enc(x)
         x = self.deconv1(x)
         x = self.bn1(x)
         x = self.relu1(x)
@@ -141,7 +140,7 @@ class ERFNet(nn.Module):
         x = self.relu2(x)
         x = self.bottleneck_22(x)
         x = self.deconv3(x)
-        return enc, x
+        return x
 
 if __name__ == "__main__":
     pass

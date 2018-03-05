@@ -78,18 +78,14 @@ class FCNSegmentor(object):
                 exit(0)
 
             inputs = Variable(data_tuple[0].cuda(async=True))
-            heatmap = Variable(data_tuple[1].cuda(async=True))
-            maskmap = None
-            if len(data_tuple) > 2:
-                maskmap = Variable(data_tuple[2].cuda(async=True))
+            targets = Variable(data_tuple[1].cuda(async=True))
 
             # Forward pass.
             outputs = self.seg_net(inputs)
 
             # Compute the loss of the train batch & backward.
-            loss_pixel = self.pixel_loss(outputs, heatmap, maskmap)
+            loss_pixel = self.pixel_loss(outputs, targets)
             loss = loss_pixel
-
             self.train_losses.update(loss.data[0], inputs.size(0))
             self.optimizer.zero_grad()
             loss.backward()
@@ -132,15 +128,10 @@ class FCNSegmentor(object):
             # Change the data type.
             inputs = Variable(data_tuple[0].cuda(async=True), volatile=True)
             targets = Variable(data_tuple[1].cuda(async=True), volatile=True)
-            maskmap = None
-            if len(data_tuple) > 2:
-                maskmap = Variable(data_tuple[2].cuda(async=True), volatile=True)
-
             # Forward pass.
             outputs = self.seg_net(inputs)
-
             # Compute the loss of the val batch.
-            loss_pixel = self.pixel_loss(outputs, targets, maskmap)
+            loss_pixel = self.pixel_loss(outputs, targets)
             loss = loss_pixel
 
             self.val_losses.update(loss.data[0], inputs.size(0))
