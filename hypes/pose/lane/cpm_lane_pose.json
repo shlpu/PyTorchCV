@@ -1,0 +1,60 @@
+{
+    "task": "pose",
+    "dataset": "lane",
+    "method": "conv_pose_machine",
+    "project_dir":"/home/deepmotion/PycharmProjects/PoseEstimation",
+    "data": {
+      "batch_size": 5,
+      "num_keypoints": 1,
+      "input_size": [368, 368],
+      "scale_search": [0.5, 1.0, 1.5, 2.0],
+      "train_dir": "/home/deepmotion/DataSet/Road/train",
+      "val_dir": "/home/deepmotion/DataSet/Road/val",
+      "rotate_degree": 40
+    },
+    "checkpoints": {
+      "save_name": "cpm_lane_pose",
+      "save_dir": "./checkpoints/pose/lane",
+      "save_iters": 5000
+    },
+    "network":{
+      "model_name": "PoseNet",
+      "stride": 8,
+      "out_channels": 2
+    },
+    "logging": {
+      "log_level": "debug",
+      "stdout_level": "info",
+      "log_file": "./log/default_lane.log",
+      "log_format": "%(asctime)s %(levelname)-7s %(message)s",
+      "rewrite": false
+    },
+    "solver": {
+      "workers": 8,
+      "weight_decay": 0.0005,
+      "momentum": 0.9,
+      "base_lr": 0.001,
+      "lr_policy": "step",
+      "gamma": 0.333,
+      "step_size": 50000,
+      "display_iter": 50,
+      "test_interval": 5000,
+      "max_iter": 200000,
+      "max_epoch": 2000
+    },
+    "heatmap": {
+      "method": "gaussian",
+      "sigma": 7.0,
+      "theta": 1.0
+    },
+    "capsule": {
+      "l_vec": 16,
+      "routing_iter": 3
+    },
+    "vis": {
+      "stick_width": 4,
+      "circle_radius": 4,
+      "part_threshold": 0.01,
+      "limb_threshold": 0.60
+    }
+}
