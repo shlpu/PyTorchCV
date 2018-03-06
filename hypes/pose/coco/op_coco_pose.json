@@ -2,15 +2,15 @@
     "dataset": "coco",
     "task": "pose",
     "method": "open_pose",
-    "project_dir":"/home/deepmotion/PycharmProjects/PoseEstimation",
+    "project_dir":"/home/donny/PycharmProjects/PoseEstimation",
     "data": {
       "batch_size": 1,
       "input_size": [368, 368],
       "rotate_degree": 40,
       "scale_search": [0.5, 1.0, 1.5, 2.0],
       "num_keypoints": 18,
-      "train_dir": "/home/deepmotion/DataSet/COCO/train",
-      "val_dir": "/home/deepmotion/DataSet/COCO/val"
+      "train_dir": "/home/donny/DataSet/COCO/train",
+      "val_dir": "/home/donny/DataSet/COCO/val"
     },
     "details": {
       "coco_to_ours": [0, 15, 14, 17, 16, 5, 2, 6, 3, 7, 4, 11, 8, 12, 9, 13, 10],

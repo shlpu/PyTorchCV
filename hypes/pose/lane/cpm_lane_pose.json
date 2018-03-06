@@ -2,14 +2,14 @@
     "task": "pose",
     "dataset": "lane",
     "method": "conv_pose_machine",
-    "project_dir":"/home/deepmotion/PycharmProjects/PoseEstimation",
+    "project_dir":"/home/donny/PycharmProjects/PoseEstimation",
     "data": {
       "batch_size": 5,
       "num_keypoints": 1,
       "input_size": [368, 368],
       "scale_search": [0.5, 1.0, 1.5, 2.0],
-      "train_dir": "/home/deepmotion/DataSet/Road/train",
-      "val_dir": "/home/deepmotion/DataSet/Road/val",
+      "train_dir": "/home/donny/DataSet/Road/train",
+      "val_dir": "/home/donny/DataSet/Road/val",
       "rotate_degree": 40
     },
     "checkpoints": {

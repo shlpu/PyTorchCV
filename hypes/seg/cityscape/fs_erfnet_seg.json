@@ -2,14 +2,14 @@
     "dataset": "cityscape",
     "task": "seg",
     "method": "fcn_segmentor",
-    "project_dir":"/home/deepmotion/PycharmProjects/PoseEstimation",
+    "project_dir":"/home/donny/PycharmProjects/PoseEstimation",
     "data": {
       "batch_size": 3,
       "input_size": [1024, 512],
       "rotate_degree": 0,
       "num_classes": 19,
-      "train_dir": "/home/deepmotion/DataSet/CityScape",
-      "val_dir": "/home/deepmotion/DataSet/CityScape"
+      "train_dir": "/home/donny/DataSet/CityScape",
+      "val_dir": "/home/donny/DataSet/CityScape"
     },
     "details": {
       "coco_to_ours": [0, 15, 14, 17, 16, 5, 2, 6, 3, 7, 4, 11, 8, 12, 9, 13, 10]
