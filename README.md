@@ -12,16 +12,18 @@ This repository provides source code for some cv problems. We do our best to kee
 
 #### Details:
 
-- [Pose Estimation](https://github.com/youansheng/ComputerVision/tree/master/methods/pose)
+- [Pose Estimation](https://github.com/youansheng/pytorch-cv/tree/master/methods/pose)
     - Convolutional Pose Machines
     - Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields
     - Associative Embedding: End-to-End Learning for Joint Detection and Grouping
     
-- [Object Detection](https://github.com/youansheng/ComputerVision/tree/master/methods/det)
+- [Object Detection](https://github.com/youansheng/pytorch-cv/tree/master/methods/det)
     - SSD: Single Shot MultiBox Detector
     
-- [Semantic Segmentation](https://github.com/youansheng/ComputerVision/tree/master/methods/seg)
+- [Semantic Segmentation](https://github.com/youansheng/pytorch-cv/tree/master/methods/seg)
     - Efficient ConvNet for Real-time Semantic Segmentation
+
+- [Image Classification](https://github.com/youansheng/pytorch-cv/tree/master/methods/cls)
 
 #### Examples
 - Train the openpose model
