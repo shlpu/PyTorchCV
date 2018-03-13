@@ -36,7 +36,7 @@ if __name__ == "__main__":
                         dest='lr_policy', help='The policy of lr during training.')
 
     # ***********  Params for logging.  **********
-    parser.add_argument('--log_level', default='debug', type=str,
+    parser.add_argument('--log_level', default=None, type=str,
                         dest='log_level', help='To set the log level to files.')
     parser.add_argument('--stdout_level', default=None, type=str,
                         dest='stdout_level', help='To set the level to print to screen.')
@@ -48,6 +48,8 @@ if __name__ == "__main__":
                         dest='test_img', help='The test path of image.')
     parser.add_argument('--test_dir', default=None, type=str,
                         dest='test_dir', help='The test directory of images.')
+    parser.add_argument('--test_set', default='val2017', type=str,
+                        dest='test_set', help='The test set of images.')
 
     args = parser.parse_args()
 
@@ -67,6 +69,8 @@ if __name__ == "__main__":
         model = method_selector.select_seg_model()
     elif configer.get('task') == 'det':
         model = method_selector.select_det_model()
+    elif configer.get('task') == 'cls':
+        model = method_selector.select_cls_model()
     else:
         Log.error('Method: {} is not valid.'.format(configer.get('method')))
         exit(1)
